@@ -1,0 +1,8 @@
+target/
+.vscode
+.devcontainer
+data
+Dockerfile
+docker-compose.*
+LICENSE
+README.md
