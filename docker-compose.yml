@@ -1,7 +1,6 @@
 version: '3.8'
 services:
   redis:
-    container_name: redis
     image: redis:alpine
     command: ['redis-server', '--appendonly', 'yes']
     volumes:
@@ -20,7 +19,6 @@ services:
       start_period: 30s
 
   mysql:
-    container_name: mysql
     image: mysql:5.7
     volumes:
       - ./data/mysql:/var/lib/mysql

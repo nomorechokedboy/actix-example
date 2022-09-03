@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: actix-example-service
+  namespace: actix-example-local
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: actix-example
+  template:
+    metadata:
+      labels:
+        app: actix-example
+    spec:
+      containers:
+        - name: actix-example
+          image: nomorechokedboy/web-project:seaorm-actix
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '1'
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: actix-example-env
+          imagePullPolicy: Always

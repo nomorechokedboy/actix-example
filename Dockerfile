@@ -23,6 +23,7 @@ COPY migration ./migration
 RUN cargo b -r
 
 COPY src ./src
+COPY templates ./templates
 RUN touch ${workdir}/src/main.rs \ 
     && cargo b -r
 

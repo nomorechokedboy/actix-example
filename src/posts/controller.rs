@@ -16,9 +16,12 @@ pub async fn get_posts(
     query: Query<BasePagingQuery>,
     app_state: web::Data<AppState>,
 ) -> HttpResponse {
-    let page = query.page.unwrap_or(1);
-    let page_size = query.page_size.unwrap_or(20);
-    let search = query.search.clone().unwrap_or("".to_string());
+    let page = query.page.unwrap_or_default();
+    let page_size = query.page_size.unwrap_or_else(|| 20);
+    let search = match &query.search {
+        Some(search) => search,
+        None => "",
+    };
     let cache_key = format!("products:paging:page={page}:pageSize={page_size}:search={search}");
 
     let redis = &app_state.redis;
@@ -26,7 +29,7 @@ pub async fn get_posts(
         .send(Command(resp_array!["get", cache_key.clone()]))
         .await
         .expect("Error getting post cache")
-        .expect(format!("Can't get posts cache").as_str());
+        .expect("Can't get posts cache");
 
     if let RespValue::BulkString(cache_string) = cache_res {
         let posts: Vec<post::Model> =
@@ -47,7 +50,7 @@ pub async fn get_posts(
         .paginate(db_con, page_size.try_into().unwrap());
 
     let posts = paginator
-        .fetch_page((page - 1).try_into().unwrap())
+        .fetch_page((page).try_into().unwrap())
         .await
         .expect("could not retrieve posts");
     let cache = serde_json::to_string(&posts).unwrap();

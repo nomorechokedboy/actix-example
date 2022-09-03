@@ -1,7 +1,6 @@
-version: '3.8'
+version: '3.0'
 services:
   rust:
-    container_name: seaorm-actix
     image: seaorm-actix
     ports:
       - 8000:8000
