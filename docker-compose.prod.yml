@@ -6,11 +6,10 @@ services:
       - ${PORT}:${PORT}
     tty: true
     depends_on:
-      - mysql
+      - db
       - redis
     volumes:
       - ./data/rust:/data/rust
-      - ./src:/app/src
     env_file:
       - .env
     networks:

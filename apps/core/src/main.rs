@@ -37,15 +37,12 @@ async fn main() -> std::io::Result<()> {
     let server_url = format!("{}:{}", host, port);
 
     let redis = RedisActor::start(redis_url);
-    let db_con = connect_db(db_url)
-        .await
-        .expect("Should be a db connection!");
 
     // load tera templates and build app state
     let templates = Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*")).unwrap();
     let state = AppState {
         templates,
-        db_con,
+        db_con: connect_db(db_url).await,
         redis,
     };
 
