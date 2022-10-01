@@ -1,9 +1,9 @@
 version: '3.0'
 services:
   rust:
-    image: seaorm-actix
+    image: nomorechokedboy/web-project:seaorm-actix
     ports:
-      - 8000:8000
+      - ${PORT}:${PORT}
     tty: true
     depends_on:
       - mysql

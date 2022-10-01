@@ -30,19 +30,22 @@ async fn main() -> std::io::Result<()> {
 
     // get env vars
     dotenv::dotenv().ok();
-    let db_url = env::var("DATABASE_URL").expect("DABASE_URL is not set in .env file");
+    let db_url = env::var("DATABASE_URL").expect("DATABASE_URL is not set in .env file");
     let host = env::var("HOST").expect("HOST is not set in .env file");
     let port = env::var("PORT").expect("PORT is not set in .env file");
     let redis_url = env::var("REDIS_URL").expect("REDIS_URL is not set");
     let server_url = format!("{}:{}", host, port);
 
     let redis = RedisActor::start(redis_url);
+    let db_con = connect_db(db_url)
+        .await
+        .expect("Should be a db connection!");
 
     // load tera templates and build app state
     let templates = Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*")).unwrap();
     let state = AppState {
         templates,
-        db_con: connect_db(db_url).await,
+        db_con,
         redis,
     };
 
@@ -50,18 +53,18 @@ async fn main() -> std::io::Result<()> {
     let mut listenfd = ListenFd::from_env();
     let mut server = HttpServer::new(move || {
         App::new()
-            .service(Fs::new("/static", "./static"))
+            .service(Fs::new("/static", "apps/core/static"))
             .app_data(web::Data::new(state.clone()))
             .wrap(middleware::Logger::default()) // enable logger
             .default_service(web::route().to(not_found))
             .configure(init)
-    })
-    .workers(8);
+    });
 
     server = match listenfd.take_tcp_listener(0)? {
         Some(listener) => server.listen(listener)?,
         None => server.bind(&server_url)?,
-    };
+    }
+    .workers(8);
 
     println!("Starting server at {}", server_url);
     server.run().await?;

@@ -1,0 +1,6 @@
+deploy:
+  # - kubectl create secret generic actix-example-env --from-env-file=.env
+  # - kubectl apply -f k8s/redis.yml
+  # - kubectl apply -f k8s/mysql.yml
+  # - kubectl apply -f k8s/app-svc.yml
+  - kubectl apply -f k8s/app-deployment.yml

@@ -23,6 +23,20 @@ impl MigrationTrait for Migration {
                     .to_owned(),
             )
             .await
+
+        // let mut posts: Vec<post::ActiveModel> = Vec::new();
+        // let db = &app_state.db_con;
+
+        // for _i in 0..30000 {
+        //     posts.push(post::ActiveModel {
+        //         text: Set(Paragraph(1..2).fake()),
+        //         title: Set(Paragraph(1..2).fake()),
+        //         ..Default::default()
+        //     });
+        // }
+
+        // let res = Post::insert_many(posts).exec(db).await;
+        // Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {

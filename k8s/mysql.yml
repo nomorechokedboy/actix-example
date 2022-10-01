@@ -31,7 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql
-  namespace: actix-example-local
+  # namespace: actix-example-local
 spec:
   selector:
     app: mysql
@@ -43,7 +43,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  namespace: actix-example-local
+  # namespace: actix-example-local
 spec:
   selector:
     matchLabels:
@@ -66,13 +66,13 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               value: password
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            exec:
-              command:
-                - mysqladmin ping
-            initialDelaySeconds: 30
-            periodSeconds: 90
-            timeoutSeconds: 30
+          #livenessProbe:
+          #exec:
+          #command:
+          #- mysqladmin ping
+          #initialDelaySeconds: 30
+          #periodSeconds: 90
+          #timeoutSeconds: 30
       #     volumeMounts:
       #       - name: mysql-persistent-storage
       #         mountPath: /var/lib/mysql
