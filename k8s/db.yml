@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: db
-  namespace: actix-example-local
+  # namespace: actix-example-local
 spec:
   selector:
     app: db
@@ -14,7 +14,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
-  namespace: actix-example-local
+  # namespace: actix-example-local
 spec:
   selector:
     matchLabels:

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: actix-example-service
-  namespace: actix-example-local
+  # namespace: actix-example-local
 spec:
   replicas: 6
   selector:
