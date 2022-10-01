@@ -5,4 +5,4 @@ deploy:
   # - kubectl apply -f k8s/app-svc.yml
   # - kubectl apply -f k8s/app-deployment.yml
   - echo 'HOST=0.0.0.0\nPORT=8000\nDATABASE_URL=postgresql://postgres:postgres@db/actix_example\nUID_GID=1000:1000\nREDIS_URL=redis:6379\n' >> .env
-  - docker compose -f docker-compose.yml -f docker-compose.prod.yml up
+  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
