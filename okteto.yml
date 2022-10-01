@@ -1,8 +1,6 @@
 deploy:
-  # - kubectl create secret generic actix-example-env --from-literal=HOST=0.0.0.0 --from-literal=PORT=8000 --from-literal=DATABASE_URL=mysql://root:password@mysql --from-literal=REDIS_URL=redis:6379
-  # - kubectl apply -f k8s/redis.yml
-  # - kubectl apply -f k8s/mysql.yml
-  # - kubectl apply -f k8s/app-svc.yml
-  # - kubectl apply -f k8s/app-deployment.yml
-  - echo 'HOST=0.0.0.0\nPORT=8000\nDATABASE_URL=postgresql://postgres:postgres@db/actix_example\nUID_GID=1000:1000\nREDIS_URL=redis:6379\n' >> .env
-  - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+  - kubectl create secret generic actix-example-env --from-literal=HOST=0.0.0.0 --from-literal=PORT=8000 --from-literal=DATABASE_URL=postgresql://postgres:postgres@db/actix_example --from-literal=REDIS_URL=redis:6379
+  - kubectl apply -f k8s/redis.yml
+  - kubectl apply -f k8s/mysql.yml
+  - kubectl apply -f k8s/app-svc.yml
+  - kubectl apply -f k8s/app-deployment.yml
