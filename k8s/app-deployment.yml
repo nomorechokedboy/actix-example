@@ -4,7 +4,7 @@ metadata:
   name: actix-example-service
   # namespace: actix-example-local
 spec:
-  replicas: 6
+  replicas: 2
   selector:
     matchLabels:
       app: actix-example

@@ -5,7 +5,6 @@ const DB_NAME: &str = "actix_example";
 
 pub async fn connect_db(db_url: String) -> Result<DatabaseConnection, DbErr> {
     // let db_con = sea_orm::Database::connect(db_url).await.unwrap();
-    // Migrator::up(&db_con, None).await.unwrap();
 
     // db_con
     let db = Database::connect(&db_url).await?;
@@ -38,5 +37,6 @@ pub async fn connect_db(db_url: String) -> Result<DatabaseConnection, DbErr> {
         DbBackend::Sqlite => db,
     };
 
+    Migrator::up(&db, None).await.unwrap();
     Ok(db)
 }
